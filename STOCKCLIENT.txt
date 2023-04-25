@@ -1,0 +1,21 @@
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class StockClient {
+   private StockClient() {}
+
+   public static void main(String[] args) {
+      try {
+         Registry registry = LocateRegistry.getRegistry("localhost");
+         StockInterface stub = (StockInterface) registry.lookup("StockInterface");
+
+         stub.getProducts();
+
+         // Do something with the products here
+
+      } catch (Exception e) {
+         System.err.println("StockClient exception: " + e.toString());
+         e.printStackTrace();
+      }
+   }
+}

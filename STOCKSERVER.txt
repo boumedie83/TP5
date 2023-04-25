@@ -1,0 +1,56 @@
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+
+public class StockServer implements StockInterface {
+   private ArrayList<Product> products = new ArrayList<Product>();
+
+   public StockServer() {}
+
+   public boolean addProduct(Product product) {
+      if(products.contains(product)) {
+         return false;
+      } else {
+         products.add(product);
+         return true;
+      }
+   }
+
+   public boolean removeProduct(Product product) {
+      if(products.contains(product)) {
+         products.remove(product);
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+   public boolean updateProduct(Product product) {
+      if(products.contains(product)) {
+         products.set(products.indexOf(product), product);
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+   public ArrayList<Product> getProducts() {
+      return products;
+   }
+
+   public static void main(String args[]) {
+      try {
+         StockServer obj = new StockServer();
+         StockInterface stub = (StockInterface) UnicastRemoteObject.exportObject(obj, 0);
+
+         Registry registry = LocateRegistry.getRegistry();
+         registry.bind("StockInterface", stub);
+
+         System.out.println("StockServer ready");
+      } catch (Exception e) {
+         System.err.println("StockServer exception: " + e.toString());
+         e.printStackTrace();
+      }
+   }
+}

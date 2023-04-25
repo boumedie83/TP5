@@ -1,0 +1,10 @@
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+public interface StockInterface extends Remote {
+   public boolean addProduct(Product product) throws RemoteException;
+   public boolean removeProduct(Product product) throws RemoteException;
+   public boolean updateProduct(Product product) throws RemoteException;
+   public ArrayList<Product> getProducts() throws RemoteException;
+}
